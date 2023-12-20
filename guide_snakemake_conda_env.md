@@ -45,9 +45,9 @@ conda env create --name XXX --file environment.yaml
 conda env create --name XXX
 # Activate the environment to use it
 conda activate XXX
-# find the latest version of Snakemake (or whatever other package you are interested in)
+# Find the latest version of Snakemake (or whatever other package you are interested in)
 conda search snakemake
-# install it - one package at a time
+# Install it - one package at a time
 conda install snakemake=5.15.0
 # Export the environment file (you will get the updated dependencies - if you had installed new ones after the creation of the env)
 - A. only built from user
