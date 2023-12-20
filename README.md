@@ -10,7 +10,7 @@ Software requirements:
 - R (version >= 4.0)
 - Python (>= 3.6)
 
-Please read [this guide](guide_snakemake_conda_env.md) if you have questions about Snakemake and conda environments (```guide_snakemake_conda_env.md```). 
+Please read [this guide](guide_snakemake_conda_env.md) if you have questions about Snakemake and conda environments (corresponding to the file ```guide_snakemake_conda_env.md```). 
 
 Input files:
 - phased (and imputed) data (VCF format)
