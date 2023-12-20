@@ -6,8 +6,8 @@ Snakemake is very well-documented. A few useful links:
 - Snakemake tutorial: https://snakemake.readthedocs.io/en/stable/tutorial/tutorial.html
 - Snakemake slides: https://slides.com/johanneskoester/snakemake-tutorial 
 - Snakemake advanced: https://f1000research.com/articles/10-33/v1
-- 
-### How to run snakemake
+  
+### How to run Snakemake
 
 Pre-running-pipeline step:
 Values key set-up using a configuration file in YAML format (do not modify the key name unless you change it accordingly in all Snakemake files. If you change the config filename, you will need to add this flag --configfile when running Snakemake).
@@ -17,7 +17,7 @@ The workflow is executed as follows:
 ```bash
 # simple run 
 snakemake --snakefile haplonet.smk -j5
-# if the filename is Snakefile and it located in the working directory you don't have to provide the name 
+# if the filename is Snakefile and is located in the working directory you don't have to provide the name 
 snakemake -j5
 # dry-run. The -np flags specify that job execution will be simulated (-n) and the individual rule commands printed (-p)
 snakemake -np
