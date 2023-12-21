@@ -32,7 +32,7 @@ Input files:
 bcftools view -m 2 -M 2 -v snps -i 'MAF > 0.05'
 ```
 3. Run Haplonet to infer population structure and local ancestry using the Snakemake file provided. 
-First of all, we will run this file [step1_training_popst](rules/haplonet_main.smk)
+First of all, we will run this file [step1_training_popst](rules/haplonet_main.smk). Information on what each rule does in the snakemake file 
 ```
 snakemake --snakefile rules/haplonet_main.smk -j10
 ```
