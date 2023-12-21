@@ -26,7 +26,7 @@ rule all:
 
 
 rule training:
-    "training NN haplotype clustering"
+    # training NN haplotype clustering
     input:
         os.path.join(config['in_path'],"vcf_chrs_ancient/FOFG-WGS-MESO3354BP-chr{chrn}.vcf.gz"),
     output:
@@ -45,7 +45,7 @@ rule training:
         "--out {params.out} 2> {log}"
 
 rule filepath:
-    "concat all chroms"
+    # concat all chroms
     input:
         expand("{panel}/chr{chrn}-{windowSize}.loglike.npy", chrn=CHR, allow_missing=True)
     output:
@@ -54,7 +54,7 @@ rule filepath:
         "realpath {input} > {output}"
 
 rule get_clusters:
-    "supervised admixture proportion assignments and metadata completion"
+    # supervised admixture proportion assignments and metadata completion
     input:
         vorder="samples/MESO3354BP_vcf_order.txt",
         meta="/home/alba/mesoneo/neo.impute.1000g.sampleInfo_clusterInfo.txt",
@@ -72,7 +72,7 @@ rule get_clusters:
 
 
 rule unsuper:
-    "admixture unsupervised-version, update q for Faroese data"
+    # admixture unsupervised-version, update q for Faroese data
     input:
         loglist="{panel}/chrs-{windowSize}.loglike.list",
         training="samples/MESO3354BP.training.clusters.txt",
@@ -91,6 +91,7 @@ rule unsuper:
         "--out {params.out} > {log}"
 
 rule best_ks:
+    # best k seed for the unsupervised admixture
     params: "{panel}/haplonet-unsuperv-{windowSize}.admixture.k{ks}"
     output:
         tmp=temp("{panel}/best-unsuperv-{windowSize}.k{ks}.txt")
@@ -102,6 +103,7 @@ rule best_ks:
         """
   
 rule allBest:
+    # concat all best seeds for the different ks and window sizes if used multiple
     input:
         expand("{panel}/best-unsuperv-{windowSize}.k{ks}.txt", ks=KS, allow_missing=True)
     output:
@@ -112,7 +114,7 @@ rule allBest:
         """
 
 rule super:
-    "admixture supervised-version, using as sources individuals with >.99 from the unsupervised-version"
+    # admixture supervised-version, using as sources individuals with >.99 from the unsupervised-version. Run get_supervised_clusters.r to generate the input file
     input:
         loglist="{panel}/chrs-{windowSize}.loglike.list",
         supervised="samples/ANC3354BP.unsupervk5.supervised.clusters.txt",
@@ -131,6 +133,7 @@ rule super:
         "--out {params.out} > {log}"
 
 rule pca:
+    # fine-scale pca based on haplotype clusters
     input:
         "{panel}/chrs-{windowSize}.loglike.list"
     output:
