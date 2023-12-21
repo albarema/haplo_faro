@@ -7,7 +7,7 @@ import pandas as pd
 
 #-----------------------------------------------------------------------------------------------
 KS=range(2,9)
-CHR=range(1,22)
+CHR=range(1,23)
 
 
 def filepath_best(wildcards):
@@ -27,44 +27,44 @@ def nonbest_rm(wildcards):
 
 rule all:
     input:
+        # only one k
+        # expand("{panel}/logs-{training}-{windowSize}.k{ks}.txt",training=['unsuperv'], panel=['ancient.3354BP'],windowSize=["ws","wl"], ks=KS)
         # needs to be run first
-        #expand("{panel}/allbest-{windowSize}.ks-admixture.txt", panel=['ancient'],windowSize="ws"),
+        # expand("{panel}/allbest-{training}-{windowSize}.ks-admixture.txt", training=['unsuperv'], panel=['ancient.3354BP'],windowSize="ws"), #'ancient.AtSc'
         # then: 
-        expand("{panel}/files2rm-{windowSize}_k{ks}.txt", panel=['ancient'], ks =KS,windowSize="ws")
-        #expand("{panel}/test.{ks}.txt", panel=['ancient'], ks=2)
-     
+        # expand("{panel}/files2rm-{model}-{windowSize}_k{ks}.txt", panel=['ancient'], ks =KS,windowSize="ws")
+        # expand("{panel}/test.{ks}.txt", panel=['ancient'], ks=2)
  
 rule best_ks:
-    params: "{panel}/{windowSize}.admixture.k{ks}"
+    params: "{panel}/haplonet-{training}-{windowSize}.admixture.k{ks}"
     output:
-        tmp=temp("{panel}/best-{windowSize}.k{ks}.tmp.txt"),
-        tmp2=temp("{panel}/best-{windowSize}.k{ks}.txt")
+        tmp="{panel}/logs-{training}-{windowSize}.k{ks}.txt"
     shell:
         """
-        paste -d"\t" <(head -n1 --quiet {params}*.log | awk '{{print $8}}') \
-        <(tail {params}*.log | grep "Final" | nl | awk -v OFS='\t' '{{print {wildcards.ks},$4}}') > {output.tmp};
-        cat {output.tmp} | sort -r -k 3 | head -n1 > {output.tmp2}
+        cat <(paste -d"\t" <(head -n1 --quiet {params}*.log | awk '{{print $8}}') \
+        <(grep -m 1 "Final" {params}*.log | nl | awk -v OFS='\t' '{{print {wildcards.ks},$4}}'))| \
+        sort -k 3 > {output.tmp}
         """
-      
+  
 rule allBest:
     input:
-        expand("{panel}/best-{windowSize}.k{ks}.txt", ks=KS, allow_missing=True)
+        expand("{panel}/logs-{training}-{windowSize}.k{ks}.txt", ks=KS, allow_missing=True)
     output:
-        "{panel}/allbest-{windowSize}.ks-admixture.txt"
+        "{panel}/allbest-{training}-{windowSize}.ks-admixture.txt"
     shell:
         """
-        cat <(echo -e "seed\tk\tlog-likelihood") <(cat {input} | sed -e 's/seed=//' ) > {output}     
+        cat <(echo -e "seed\tk\tlog-likelihood") <(head -n1 {input} | sed -e 's/seed=//' ) > {output}     
         """
 
 rule best_ls:
     input: 
-        a="{panel}/best-{windowSize}.k{ks}.txt",
-        b="{panel}/allbest-{windowSize}.ks-admixture.txt"
+        a="{panel}/best-{model}-{windowSize}.k{ks}.txt",
+        b="{panel}/allbest-{model}-{windowSize}.ks-admixture.txt"
     params: 
         fp= lambda wildcards: nonbest_rm(wildcards),
-        lsp = "{panel}/*{windowSize}.admixture.k{ks}*"
+        lsp = "{panel}/*-{model}-{windowSize}.admixture.k{ks}*"
     output: 
-        rmfile = "{panel}/torm/files2rm-{windowSize}_k{ks}.txt"
+        rmfile = "{panel}/files2rm-{model}-{windowSize}_k{ks}.txt"
     shell:
         """
         comm -2 -3 <(ls {params.lsp} ) <(ls {params.fp}| sort) | tail +2 > {output.rmfile} ;
@@ -80,4 +80,5 @@ rule plota:
         "{panel}/figures/admixture.k{ks}.png"
     shell: 
         "Rscript scripts/plotting.haplonet.r {input}"
+
         
