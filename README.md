@@ -32,5 +32,16 @@ Input files:
 bcftools view -m 2 -M 2 -v snps -i 'MAF > 0.05'
 ```
 3. Run Haplonet to infer population structure and local ancestry using the Snakemake file provided. 
+First of all, we will run this file [step1_training_popst](rules/haplonet_main.smk)
+```
+snakemake --snakefile rules/haplonet_main.smk -j10
+```
+We will run 10 seeds (more seeds are required for higher Ks). For the chosen K, check if the log-likelihoods have converged, otherwise, run up to 100 seeds. Then, use the admixture results with the highest log-likelihood for further analyses. The Snakemake file [step2_best_plotting](rules/fastash.smk) does this for you.  
+```
+snakemake --snakefile rules/plotting_haplonet.smk -j10
+```
 
-We will be running 10 seeds (more seeds are required for higher Ks). For the chosen K, check if the log-likelihoods have converged, otherwise, run up to 100 seeds. Then, use the admixture results with the highest log-likelihood for further analyses. The Snakemake file ```plotting_haplonet.smk``` does this for you.  
+Finally, we need to run this to get chromosome painting [step3_fastash](rules/fastash.smk):
+```
+snakemake --snakefile rules/fatash.smk -j10
+```
