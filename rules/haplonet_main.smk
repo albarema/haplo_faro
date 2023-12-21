@@ -63,7 +63,7 @@ rule get_clusters:
         unsuper="samples/MESO3354BP.training.clusters.txt",
         meta="metadata/MESO3354BP.sampleInfo_clusterInfo.txt"
     shell:
-        "Rscript cluster_ks_haplo.r "
+        "Rscript scripts/cluster_ks_haplo.r "
         "-m {input.meta} "
         "-s {input.vorder} "
         "-o {output.meta} "
