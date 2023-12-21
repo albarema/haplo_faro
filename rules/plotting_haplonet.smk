@@ -21,7 +21,7 @@ def nonbest_rm(wildcards):
     d = pd.read_csv(wildcards.panel+"/allbest-"+(wildcards.windowSize) + ".ks-admixture.txt", sep="\t")
     KS = str(wildcards.ks)
     seedv = str(d.loc[d['k'] == int(KS)]['seed'].values[0])
-    filepathB = wildcards.panel+ "/*"+ wildcards.windowSize + ".admixture.k"+ str(wildcards.ks)+ ".s" + str(seedv) + "*"
+    filepathB = wildcards.panel+ "/*"+ wildcards.model + wildcards.windowSize + ".admixture.k"+ str(wildcards.ks)+ ".s" + str(seedv) + "*"
     return filepathB
 #-----------------------------------------------------------------------------------------------
 
