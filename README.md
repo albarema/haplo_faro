@@ -44,7 +44,7 @@ Output files:
 - log file with parameters used in the training (*.log)
 - ancestry proportions in a text file (*.q)
 - ancestral cluster frequencies in a binary NumPy matrix (*.f.npy)
-- covariance matrix + eigendecomposition (*.cov)
+- eigenvectors directly using singular value decomposition (SVD) (*.eigenvecs)
   
 Then, use the admixture results with the highest log-likelihood for further analyses. The Snakemake file [step2_best_plotting](rules/plotting_haplonet.smk) does this for you. 
  
