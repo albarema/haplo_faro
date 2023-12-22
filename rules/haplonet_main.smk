@@ -54,7 +54,11 @@ rule filepath:
         "realpath {input} > {output}"
 
 rule get_clusters:
-    # (un)supervised admixture proportion assignments and metadata completion. The population of interest (Faroese) are assigned to value 1 and the rest to value 0 for the training. For the supervised, assign 0 for the Faroese and other values 1:N, N being the total number of different sources 
+    """
+    (un)supervised admixture proportion assignments and metadata completion. 
+    The population of interest (Faroese) are assigned to value 1 and the rest to value 0 for the training.
+    For the supervised, assign 0 for the Faroese and other values 1:N, N being the total number of different sources. 
+    """
     input:
         vorder="samples/MESO3354BP_vcf_order.txt",
         meta="/home/alba/mesoneo/neo.impute.1000g.sampleInfo_clusterInfo.txt",
