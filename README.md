@@ -37,7 +37,9 @@ First of all, we will run this file [step1_training_popst](rules/haplonet_main.s
 ```
 snakemake --snakefile rules/haplonet_main.smk -j10
 ```
-Information on what each rule does in the snakemake file but basically, it first outputs the NN log-likelihoods which are later used to infer global population structure (PCA and admixture).We will use 10 seeds (more seeds are required for higher Ks). For the chosen K, check if the log-likelihoods have converged, otherwise, run up to 100 seeds. 
+Information on what each rule does in the snakemake file but basically, it first outputs the NN log-likelihoods which are later used to infer global population structure (PCA and admixture). We will use 10 seeds (more seeds are required for higher Ks). For the chosen K, check if the log-likelihoods have converged, otherwise, run up to 100 seeds. 
+
+The way we estimate the admixture proportions is by using a fixed "F" matrix estimated with other samples which are considered as a "training set" (important not to include the population of interest, Faroese in this case). Then we estimate the "Q" matrix for all samples. 
 
 Output files:
 - log-likelihoods in binary NumPy matrix per chromosome (*.loglike.npy)
@@ -57,4 +59,8 @@ Finally, we need to run [step3_fastash](rules/fastash.smk) to get chromosome pai
 snakemake --snakefile rules/fatash.smk -j10
 ```
 Output file:
-- Best cluster per window (*.path, window size set in step 1). Each line corresponds to a haplotype. Haplotypes 1 and 2 from the same individual are found consecutive and the order of the individuals is the same as in the VCF file. 
+- Best cluster per window (*.path, window-size set in step 1). Each line corresponds to a haplotype. Haplotypes 1 and 2 from the same individual are found consecutive and the order of the individuals is the same as in the VCF file. 
+
+THE CHALLENGE ABOUT STUDYING THE FAROESE POPULATION
+
+It is a very homogeous and distinct populations which means that becomes a very hard problem to model in a standard "supervised" fashion way. This is the reason why we
