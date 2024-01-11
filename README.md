@@ -61,6 +61,3 @@ snakemake --snakefile rules/fatash.smk -j10
 Output file:
 - Best cluster per window (*.path, window-size set in step 1). Each line corresponds to a haplotype. Haplotypes 1 and 2 from the same individual are found consecutive and the order of the individuals is the same as in the VCF file. 
 
-THE CHALLENGE ABOUT STUDYING THE FAROESE POPULATION
-
-It is a very homogeous and distinct populations which means that becomes a very hard problem to model in a standard "supervised" fashion way. This is the reason why we
