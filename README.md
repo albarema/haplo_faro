@@ -12,6 +12,12 @@ Software requirements:
 
 Please read [this guide](guide_snakemake_conda_env.md) if you have questions about Snakemake and conda environments (corresponding to the file ```guide_snakemake_conda_env.md```). 
 
+## Getting started
+
+1. Clone this repository (git clone XXXX)
+2. Create a conda environment using the environmental.yaml file provided (conda env create --file environment.yaml)
+3. Prepare all input files
+
 Input files:
 - phased (and imputed) whole-genome sequencing (WGS) data in VCF/BCF format (NB: ideally one file per chromosome, otherwise, check what to do when using a merged file ```--like```)
 - tab-delimited file with the sample IDs (same order as VCF)
