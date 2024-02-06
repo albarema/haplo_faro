@@ -25,6 +25,11 @@ snakemake -np
 ```
 Specify the path using the flag ```--snakefile XXX``` if the file is not located in your working directory. I usually have all my snakefiles in a separate directory named  ```rules```. This applied as well to the YAML file ```--configfile XXX```. The location of the config.yaml can be also specified in the Snakefile. 
 
+Before running a snakemake pipeline, I would always recommend running a dry-run beforehand. This step will simulate the execution of a workflow without actually running the specified rules or generating any output files. It is very useful for:
+- debugging and validation: errors, missing files etc. will be printed
+- preview the workflow steps: ensuring the sequence of steps is correct
+
+
 ## Conda environments
 
 I recommend creating your conda environment for each project (which will require different software and potentially different versions). More information on [conda environments](https://docs.conda.io/projects/conda/en/latest/user-guide/index.html). 
